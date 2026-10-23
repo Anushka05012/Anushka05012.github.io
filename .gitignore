@@ -1,0 +1,15 @@
+# Original source files: the site uses the compressed / blurred copies instead.
+# Keep these out of the public repo (personal data, browser history, large sizes).
+
+# Crescendo originals (unblurred screenshots, full screen recording)
+assets/projects/cresendo/*.mp4
+assets/projects/cresendo/*.jpeg
+
+# Vishwakarandak original video (site uses vk-web.mp4)
+assets/projects/vishwakarandak/vk.mp4
+
+# Dyslexia original screenshots (site uses the named .jpg copies)
+assets/projects/dyxlexia/image*.png
+
+# Original portrait (site uses photo-cutout.webp)
+assets/photo.png

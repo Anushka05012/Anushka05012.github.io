@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project — Anushka Bhalerao</title>
+  <meta name="description" content="Project case study by Anushka Bhalerao." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="project.css" />
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="progress" id="progress"></div>
+
+  <header class="nav" id="nav">
+    <a href="index.html#top" class="logo" aria-label="Home">
+      <span class="logo-mark">A</span><span class="logo-text">Anushka<i>.</i></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html#about">About</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#work">Work</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <span class="theme-dot"></span>
+      </button>
+      <a href="index.html#contact" class="btn-link magnetic">Let's talk <span class="arrow">↗</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <!-- Filled in by project.js from projects.js -->
+  <main id="project"></main>
+
+  <footer class="footer">
+    <span>© <span class="year"></span> Anushka Bhalerao</span>
+    <a href="index.html#work">← All projects</a>
+    <a href="#top" onclick="scrollTo({ top: 0 }); return false;">Back to top ↑</a>
+  </footer>
+
+  <!-- Lightbox for gallery images -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <button class="lb-btn lb-close" data-lb="close" aria-label="Close">✕</button>
+    <button class="lb-btn lb-prev" data-lb="prev" aria-label="Previous image">←</button>
+    <figure class="lb-figure">
+      <img id="lbImg" alt="" />
+      <figcaption><span id="lbCaption"></span><span id="lbCount"></span></figcaption>
+    </figure>
+    <button class="lb-btn lb-next" data-lb="next" aria-label="Next image">→</button>
+  </div>
+
+  <script src="projects.js"></script>
+  <script src="common.js"></script>
+  <script src="project.js"></script>
+</body>
+</html>
