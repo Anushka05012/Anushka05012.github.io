@@ -8,6 +8,9 @@
    - category:  filter name (new names get their own filter button automatically)
    - cover:     main screenshot/photo. Without it, a generated cover using
                 `glyph` and `colors` [background, text] is shown.
+   - thumb:     optional stock image for the project cards only, for projects
+                without screenshots; the case-study page then shows no cover
+                at the top and no "screenshots on the way" note
    - video:     optional .mp4 played at the top of the case-study page instead
                 of the cover; `poster` is the still shown while it loads
    - accent:    colour used for highlights on this project's page
@@ -18,16 +21,19 @@
    - spotlight: optional section showing off one feature:
        { eyebrow, title, text, image: { src, caption }, steps: [{ title, text }] }
    - gallery:   list of image groups shown on the case-study page:
-       { title, text, layout: "screens" | "masonry" | "row",
+       { title, text, layout: "screens" | "thumbs" | "masonry" | "row",
          images: [{ src, caption, frame: "browser" | "phone", wide: true }] }
        an item can be a video instead: { video, poster, caption, frame, wide }
        "screens" = big 2-column grid (good for website screenshots)
+       "thumbs" = small equal tiles that enlarge on click (mixed sizes, e.g. charts + documents)
        "masonry" = photo wall, "row" = small items in one line (logos, badges)
    ========================================================= */
 
 const VK = "assets/projects/vishwakarandak/";
 const DX = "assets/projects/dyxlexia/";
 const CR = "assets/projects/cresendo/web/";
+const LG = "assets/projects/legal-ai/";
+const PV = "assets/projects/pinevox-billing/";
 
 const projects = [
   {
@@ -213,78 +219,125 @@ const projects = [
     ],
   },
   {
-    slug: "ctb-analyzer",
-    featured: true,
-    title: "CTB Analyzer",
-    tagline: "Defect analysis with AI-assisted root cause analysis, built at Siemens.",
-    category: "Enterprise",
-    type: "Siemens",
-    when: "Jun – Jul 2026",
-    role: "DevOps Intern",
-    team: "Siemens Digital Industries Software",
-    glyph: "RCA",
-    colors: ["#009999", "#e6f7f7"],
-    accent: "#009999",
+    slug: "business-card-intelligence",
+    title: "VLM Business Card Intelligence",
+    tagline: "A local vision-language model reads business cards and enriches each contact with stock, jobs and news.",
+    category: "AI / ML",
+    type: "Academic project",
+    team: "Group A9 with Neeraj Barhate, Snehal Bawanthade & Vedant Bijiargi · guided by Dr. Radhika Kulkarni",
+    thumb: "assets/projects/business-card/thumb.jpg",
+    glyph: "@",
+    colors: ["#0d1b3e", "#00c9a7"],
+    accent: "#00a88c",
+    stat: { value: "99.0%", label: "field accuracy on double-sided cards" },
     summary:
-      "An enterprise application for CTB defect analysis with AI-assisted Root Cause Analysis and reporting dashboards, built for Siemens' Automation & AI Apps Portal (Jasper).",
+      "Professionals collect stacks of business cards at events, then type them into a CRM by hand, creating typos and duplicates and getting no context about the company. This Flask app runs Qwen3-VL-2B locally to turn a photo of a card into structured contact data, merges it with existing records, and adds live business intelligence about the contact's company.",
     built: [
-      "Defect analysis workflows for CTB data.",
-      "AI-assisted Root Cause Analysis (RCA).",
-      "Reporting dashboards for engineering teams.",
+      "Structured extraction of 7 fields (name, title, email, phone, address, company, website) from single- or double-sided cards with Qwen3-VL-2B-Instruct running locally via HuggingFace Transformers.",
+      "A prompt that constrains the model to a flat JSON object, with the output stripped of markdown fences and parsed before saving.",
+      "Smart deduplication: a contact matching by email or name + company is merged into the existing record without overwriting valid fields.",
+      "Company enrichment with live stock quotes (Finnhub), the top 3 open roles (Adzuna) and the 3 most relevant headlines (NewsAPI).",
+      "A batch script that imports folders of front/back image pairs straight into the SQLite database.",
+      "A multi-user Flask web app with secure login, per-user card storage, a gallery view and search across saved contacts.",
     ],
-    highlights: ["SSO authentication.", "Optimised database queries and reusable PHP modules."],
-    stack: ["PHP", "JavaScript", "MySQL", "AI", "SSO"],
+    highlights: [
+      "97.2% accuracy on 60 single-sided cards and 99.0% on 30 double-sided cards.",
+      "Email and phone extraction were 100% reliable; address was the hardest field (11.1% error rate) because of multi-line layouts.",
+      "₹0 running cost: inference runs locally and every API stays within its free tier.",
+    ],
+    stack: ["Python", "Flask", "Qwen3-VL-2B", "HuggingFace Transformers", "SQLAlchemy", "SQLite", "Finnhub", "Adzuna", "NewsAPI"],
     links: [],
+    spotlight: {
+      eyebrow: "How it works",
+      title: "From a photo to a profile",
+      text: "Each card goes through one pipeline, whether it's uploaded in the browser or imported in bulk from a folder.",
+      steps: [
+        { title: "Upload", text: "The user uploads the front (and optionally the back) of a card, or drops image pairs into the batch folder." },
+        { title: "VLM inference", text: "A vision transformer encodes the images, and the language model generates a JSON object with the 7 contact fields." },
+        { title: "Dedup check", text: "The new contact is compared with saved records by email, then by name + company." },
+        { title: "Store or merge", text: "A new card is saved; a duplicate is merged, keeping every non-empty field." },
+        { title: "Enrich", text: "The company name triggers Finnhub, Adzuna and NewsAPI lookups, giving talking points before a follow-up." },
+      ],
+    },
     gallery: [],
   },
   {
-    slug: "learn-and-help",
-    title: "Learn and Help — Digital Platform",
-    tagline: "The digital infrastructure behind a non-profit in education.",
-    category: "Web",
-    type: "Non-profit",
-    role: "Director of Technology",
-    glyph: "L&H",
-    colors: ["#ff8a3d", "#fff4ee"],
-    accent: "#ff6a1f",
+    slug: "legal-ai",
+    title: "LAW ai: Legal Document Analysis",
+    tagline: "A hybrid RAG assistant that reads up to 3 legal PDFs together and answers with Indian law and precedents.",
+    category: "AI / ML",
+    type: "Academic project",
+    team: "Group TYA9 with Vedant Bijjargi, Snehal Bawanthade & Neeraj Barhate · guided by Prof. Vidya Gaikwad",
+    cover: LG + "chat.jpg",
+    glyph: "§",
+    colors: ["#1b2b4b", "#e8ecff"],
+    accent: "#5468e0",
+    stat: { value: "0.86", label: "groundedness score for RAG answers" },
     summary:
-      "As Director of Technology, I'm building the digital infrastructure that helps Learn and Help scale its educational and charitable impact.",
+      "Lawyers and students lose hours searching long, unstructured PDFs for the right section or citation, and generic chatbots give answers with no link back to the source. LAW ai analyses up to three documents at once, retrieves the relevant passages across all of them, and answers questions grounded in those pages. It is built for Indian law: it picks out IPC, CrPC, Evidence Act and Constitution references and finds matching judgments on Indian Kanoon.",
     built: [
-      "Website development for the organisation.",
-      "Automation for tracking student progress.",
-      "Opportunity and resource databases for students.",
-      "Technology for digital outreach.",
+      "A multi-document RAG pipeline: PDFs are loaded with PyPDF, split, embedded with OpenAI embeddings and indexed in FAISS, with cross-document search across up to 3 files that can be added or removed at any time.",
+      "Question answering with GPT-4o-mini over re-ranked context (Cohere), with automatic brief or detailed formatting and the source document always cited.",
+      "A legal NLP extractor (spaCy + regex, no LLM cost) that detects IPC/CrPC/Evidence/Constitution sections, AIR/SCC/SCR citations and 95+ offence keywords.",
+      "Precedent discovery: extracted terms become optimised Indian Kanoon queries, results are semantically re-ranked and filtered to judgments only (no Acts), then cached per session.",
+      "Document analysis panels for clause risk levels and legal compliance, plus one-click actions to summarise, identify risks, check compliance and suggest amendments.",
+      "Built-in evaluators for context relevance and groundedness, with analytics stored in SQLite.",
     ],
-    highlights: [],
-    stack: ["Web Development", "Automation", "Databases"],
-    live: "",
-    links: [],
-    gallery: [],
-  },
-  {
-    slug: "ai-tokenomics",
-    title: "AI Tokenomics",
-    tagline: "AI token usage and cost monitoring with approval workflows.",
-    category: "Enterprise",
-    type: "Siemens",
-    when: "Jun – Jul 2026",
-    role: "DevOps Intern",
-    team: "Siemens Digital Industries Software",
-    glyph: "¤",
-    colors: ["#141414", "#e9e6df"],
-    accent: "#009999",
-    summary:
-      "An internal application for monitoring AI token usage and cost across teams, with approval workflows and analytics, built for Siemens' Jasper portal.",
-    built: [
-      "AI token usage monitoring and cost analysis.",
-      "Approval workflows for AI usage requests.",
-      "Analytics dashboards.",
+    highlights: [
+      "Context relevance of 0.84 (the usual benchmark is 0.75+) and groundedness of 0.86.",
+      "89.3% legal term extraction accuracy without using an LLM for parsing.",
+      "97% system reliability across multi-PDF sessions, with ~19 s for a document Q&A answer.",
+      "Access to 10M+ Indian judgments through Indian Kanoon.",
     ],
-    highlights: ["Reusable PHP modules and efficient database queries for performance."],
-    stack: ["PHP", "JavaScript", "MySQL", "Dashboards"],
+    stack: ["Python", "FastAPI", "LangChain", "OpenAI GPT-4o-mini", "FAISS", "Cohere", "spaCy", "SQLite", "Jinja2"],
     links: [],
-    gallery: [],
+    spotlight: {
+      eyebrow: "How it works",
+      title: "From a question to a grounded answer",
+      text: "Every answer is built only from the uploaded documents, and every claim points back to the file it came from.",
+      steps: [
+        { title: "Upload", text: "Up to three PDFs are split into chunks, embedded and stored in a FAISS index for the session." },
+        { title: "Retrieve", text: "A question searches all the documents together, and Cohere re-ranks the best passages." },
+        { title: "Answer", text: "GPT-4o-mini writes the answer from that context only, citing the source document and the relevant IPC sections." },
+        { title: "Find precedents", text: "Legal terms extracted from the documents become Indian Kanoon queries, returning related Supreme Court and High Court judgments." },
+        { title: "Measure", text: "Each answer is scored for context relevance and groundedness, and the results are logged in SQLite." },
+      ],
+    },
+    gallery: [
+      {
+        title: "Inside the app",
+        text: "Alongside the chat, each document gets a structured breakdown of its clauses and the laws they touch.",
+        layout: "screens",
+        images: [
+          { src: LG + "analysis.jpg", caption: "Clause risk levels, legal compliance checks and quick actions", frame: "browser" },
+        ],
+      },
+    ],
   },
+  // {
+  //   slug: "ai-tokenomics",
+  //   title: "AI Tokenomics",
+  //   tagline: "AI token usage and cost monitoring with approval workflows.",
+  //   category: "Enterprise",
+  //   type: "Siemens",
+  //   when: "Jun – Jul 2026",
+  //   role: "DevOps Intern",
+  //   team: "Siemens Digital Industries Software",
+  //   glyph: "¤",
+  //   colors: ["#141414", "#e9e6df"],
+  //   accent: "#009999",
+  //   summary:
+  //     "An internal application for monitoring AI token usage and cost across teams, with approval workflows and analytics, built for Siemens' Jasper portal.",
+  //   built: [
+  //     "AI token usage monitoring and cost analysis.",
+  //     "Approval workflows for AI usage requests.",
+  //     "Analytics dashboards.",
+  //   ],
+  //   highlights: ["Reusable PHP modules and efficient database queries for performance."],
+  //   stack: ["PHP", "JavaScript", "MySQL", "Dashboards"],
+  //   links: [],
+  //   gallery: [],
+  // },
   {
     slug: "pinevox-billing",
     title: "PineVox Billing Frontend",
@@ -294,6 +347,7 @@ const projects = [
     when: "Jul 2025 – May 2026",
     role: "Software Development Intern",
     team: "PineVox",
+    cover: PV + "dashboard.jpg",
     glyph: "₹",
     colors: ["#2f4bff", "#eef0ff"],
     accent: "#2f4bff",
@@ -308,7 +362,18 @@ const projects = [
     highlights: [],
     stack: ["Next.js", "React", "REST APIs", "SSH"],
     links: [],
-    gallery: [],
+    gallery: [
+      {
+        title: "Inside the app",
+        text: "Dashboards for revenue and call volume, and the invoices customers receive each month.",
+        layout: "thumbs",
+        images: [
+          { src: PV + "revenue-chart.jpg", caption: "Call volume against monthly revenue across the year" },
+          { src: PV + "network-map.jpg", caption: "Map view of network routes between locations" },
+          { src: PV + "invoice.jpg", caption: "A generated monthly invoice (customer and bank details blurred)" },
+        ],
+      },
+    ],
   },
   {
     slug: "virtual-os",
@@ -316,6 +381,7 @@ const projects = [
     tagline: "A multiprogramming OS simulator written in C.",
     category: "Systems",
     type: "Academic project",
+    thumb: "assets/projects/virtual-os/thumb.jpg",
     glyph: "OS",
     colors: ["#1e7a55", "#e8f5ee"],
     accent: "#1e7a55",
@@ -333,28 +399,13 @@ const projects = [
     links: [],
     gallery: [],
   },
-  {
-    slug: "vertical-agriculture",
-    title: "Sustainable Vertical Agriculture",
-    tagline: "Research paper published by Taylor & Francis.",
-    category: "Research",
-    type: "Publication",
-    glyph: "✿",
-    colors: ["#c99a2e", "#fff8e6"],
-    accent: "#b4861f",
-    summary: "A research paper on enabling sustainable vertical agriculture, published by Taylor & Francis.",
-    built: [],
-    highlights: ["Co-authored and published with Taylor & Francis."],
-    stack: ["Research", "Sustainability", "Agri-tech"],
-    links: [],
-    gallery: [],
-  },
 ];
 
-/* Cover art shared by both pages: the screenshot if there is one,
-   otherwise a generated card with the project's glyph. */
+/* Cover art shared by both pages: the screenshot (or stock thumb) if there
+   is one, otherwise a generated card with the project's glyph. */
 function projectCover(p, label = true) {
-  if (p.cover) return `<img src="${p.cover}" alt="${p.title}" loading="lazy" />`;
+  const src = p.cover || p.thumb;
+  if (src) return `<img src="${src}" alt="${p.title}" loading="lazy" />`;
   const [bg, fg] = p.colors || ["#222", "#fff"];
   return `<div class="art" style="--art-bg:${bg};--art-fg:${fg}">
       <span class="art-glyph">${p.glyph || p.title[0]}</span>

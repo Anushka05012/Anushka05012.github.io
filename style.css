@@ -218,10 +218,13 @@ em { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
 
 .hero-left { display: flex; flex-direction: column; justify-content: space-between; gap: 32px; position: relative; z-index: 2; }
 
-.hero-stats { display: flex; gap: clamp(20px, 3vw, 48px); flex-wrap: wrap; }
-.hero-stats strong { display: block; font-size: clamp(28px, 3vw, 42px); font-weight: 400; letter-spacing: -0.03em; line-height: 1; }
-.hero-stats sup { font-size: 0.5em; vertical-align: top; position: relative; top: 0.2em; }
-.hero-stats small { display: block; font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.35; }
+.hero-name {
+  display: flex; align-items: center; gap: 0.5em; flex-wrap: wrap;
+  font-size: clamp(22px, 2.6vw, 38px); font-weight: 500; letter-spacing: 0.22em;
+  text-transform: uppercase; line-height: 1;
+}
+.hero-name::before { content: ""; width: 1.4em; height: 2px; background: var(--accent); }
+.hero-name span:last-child { font-weight: 300; color: var(--muted); }
 
 .hero-title {
   font-size: clamp(96px, 16vw, 260px);
@@ -524,27 +527,6 @@ em { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
   font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8;
 }
 
-/* ---------- Playground ---------- */
-.play-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 64px); align-items: center; }
-.play-copy p { color: var(--muted); font-size: 17px; margin-bottom: 16px; max-width: 46ch; }
-.play-controls { display: flex; gap: 10px; margin: 24px 0; }
-.play-score { font-family: var(--font-mono); font-size: 14px; }
-.play-score b { color: var(--accent); font-size: 28px; font-weight: 500; margin-left: 6px; }
-.canvas-wrap {
-  position: relative; aspect-ratio: 1; width: 100%; max-width: 520px; justify-self: end;
-  background: var(--surface); border: 1px dashed var(--line); border-radius: var(--radius);
-  overflow: hidden;
-  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 40px 40px;
-  background-position: -1px -1px;
-}
-#traceCanvas { width: 100%; height: 100%; touch-action: none; cursor: crosshair; display: block; }
-.canvas-hint {
-  position: absolute; right: 16px; bottom: 14px;
-  font-family: var(--font-serif); font-style: italic; font-size: 20px; color: var(--muted);
-  pointer-events: none; transition: opacity 0.4s;
-}
-
 /* ---------- Skills ---------- */
 .skill-groups { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px 64px; }
 .skill-group h4 { font-family: var(--font-mono); font-size: 12px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 16px; }
@@ -651,7 +633,7 @@ em { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
   .awards { grid-template-columns: 1fr; }
   .project-grid { grid-template-columns: minmax(0, 1fr); }
   .award:first-child { grid-column: auto; }
-  .hero-stats { gap: 20px; }
+  .hero-name { letter-spacing: 0.16em; }
   .footer { justify-content: center; text-align: center; }
 }
 

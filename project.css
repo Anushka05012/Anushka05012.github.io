@@ -125,6 +125,16 @@
 .g-masonry .shot-open img { border-radius: 16px; filter: grayscale(0.25); transition: transform 0.9s var(--ease), filter 0.6s; }
 .g-masonry .shot-open:hover img { transform: scale(1.04); filter: none; }
 
+/* small screenshot tiles: mixed shapes fitted into equal boxes, click to enlarge */
+.g-thumbs { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; align-items: start; }
+.g-thumbs .shot-open {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 14px; transition: transform 0.5s var(--ease), border-color 0.3s;
+}
+.g-thumbs .shot-open img { aspect-ratio: 4 / 3; object-fit: contain; }
+.g-thumbs .shot-open:hover { transform: translateY(-6px); border-color: var(--accent); }
+.g-thumbs figcaption { font-size: 13px; }
+
 /* row of small items: logos, crests, badges */
 .g-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px; }
 .g-row .shot-open {

@@ -101,6 +101,8 @@
       )
     : p.cover
     ? browserFrame(`<img src="${p.cover}" alt="${p.title}" />`, p.live)
+    : p.thumb
+    ? "" // a stock thumb is for cards only, so the page starts straight with the details
     : `<div class="pj-art">${projectCover(p, false)}</div>`;
 
   main.innerHTML = `
@@ -121,7 +123,7 @@
       </div>
     </section>
 
-    <figure class="pj-cover reveal">${hero}</figure>
+    ${hero ? `<figure class="pj-cover reveal">${hero}</figure>` : ""}
 
     <section class="pj-info">
       <dl class="pj-meta reveal">
@@ -139,7 +141,7 @@
     ${spotlight}
 
     ${
-      gallery || p.video || spotlight ? gallery :
+      gallery || p.video || spotlight || p.thumb ? gallery :
       `<section class="pj-group"><div class="pj-soon reveal">
          <span>✦</span>
          <p>Screenshots and a deeper write-up for this project are on the way.</p>
